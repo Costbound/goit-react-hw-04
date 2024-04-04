@@ -1,0 +1,36 @@
+.header {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    background-color: rgb(66, 66, 170);
+    box-shadow: 0 -2px 15px black;
+    padding: 8px 0 10px 0;
+}
+.form {
+    position: relative;
+}
+.searchInput {
+    padding-left: 40px;
+    width: 400px;
+    height: 40px;
+    border-radius: 2px;
+    border: none;
+    letter-spacing: 0.04em;
+}
+.submitButton {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-47%);
+    background-color: transparent;
+}
+.searchIcon {
+    color: rgb(87, 87, 87);
+}
+.error {
+    top: 50px;
+}
