@@ -1,0 +1,11 @@
+.container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.errTitle {
+    text-align: center;
+    font-size: 42px;
+    color: rgb(63, 57, 143);
+}

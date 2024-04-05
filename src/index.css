@@ -3,6 +3,7 @@
     letter-spacing: 0.02em;
 }
 button {
+    cursor: pointer;
     display: block;
     border: none;
 }

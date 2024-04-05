@@ -1,0 +1,15 @@
+.cardWrapper {
+    cursor: zoom-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    overflow-y: hidden;
+    transition: transform 150ms;
+}
+.cardWrapper:hover {
+    transform: scale(102%);
+}
+.image {
+    width: 100%;
+}
