@@ -7,3 +7,10 @@ button {
     display: block;
     border: none;
 }
+.ReactModal__Overlay--before-open {
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}

@@ -1,4 +1,3 @@
-import css from './App.module.css'
 import { useState, useEffect } from 'react'
 import SearchBar from '../SearchBar/SearchBar'
 import ImageGallery from '../ImageGallery/ImageGallery'
@@ -11,12 +10,19 @@ import { fetchImages } from '../../images-api'
 
 
 export default function App() {
+    // Array of images data for build gallery
     const [fetchedData, setFetchedData] = useState([])
+    // Value which enter user in search form
     const [searchWord, setSearchWord] = useState('')
+    // Page No for fetch with load more
     const [page, setPage] = useState(1)
+    // Status of loader - visivle or not
     const [loading, setLoading] = useState(false)
+    // Error message in case of error and '' in case no error. Using also like a bool for render or no err component
     const [error, setError] = useState('')
+    // Opened/Closed modal bool for react-modal
     const [isModalOpen, setIsModalOpen] = useState(false)
+    // Fullsize image url and alt text for modal image
     const [modalUrl, setModalUrl] = useState('')
     const [modalAlt, setModalAlt] = useState('')
 
@@ -24,15 +30,20 @@ export default function App() {
         setSearchWord(searchValue)
     }
 
+    // Fetch by new searchWord
     useEffect(() => {
+        // if to avoid fetch with empty searchWord during first render
         if (searchWord) { 
             const fetchData = async () => {
                 try {
+                    // Clean gallery from old searchWord data
                     setFetchedData([])
                     setPage(1)
+                    // Clean error if previous request was error
                     setError('')
                     setLoading(true)
                     const data = await fetchImages(searchWord, 1)
+                    // Check if thre is any image in data array and throw error if data []
                     if (data.length > 0) {
                         setFetchedData(data)
                     } else {
@@ -49,20 +60,18 @@ export default function App() {
         }
     }, [searchWord])
 
+    // fetch by pushing load more btn
     const handleLoadMore = () => {
         const fetchData = async () => {
             try {
+                // Clean error if previous request was error
                 setError('')
                 setLoading(true)
                 const data = await fetchImages(searchWord, page + 1)
-                if (data.length > 0) {
-                    setFetchedData(fetchedData.concat(data))
-                    setPage(page + 1)
-                } else {
-                    toast.error("There are no more images...")
-                }
+                setFetchedData(fetchedData.concat(data))
+                // before fetch to avoid setPage in case fetch with error
+                setPage(page + 1)
             } catch (err) {
-                setFetchedData([])
                 setError(err.message)
             }
             finally {
@@ -72,20 +81,30 @@ export default function App() {
         fetchData()
     }
 
+    // set states for opened modal
     const handleCardClick = (imgUrl, imgAlt) => {
         setModalUrl(imgUrl)
         setModalAlt(imgAlt)
         setIsModalOpen(true)
     }
-    console.log(modalAlt, modalUrl)
+
+    // set state for closed modal
+    const handleModalClose = () => {
+        setIsModalOpen(false)
+    }
+
     return (
         <div className="content-container">
             <SearchBar onSubmit={handleSubmit} />
             <ImageGallery data={fetchedData} onClick={handleCardClick} />
             <Loader isVisible={loading} />
-            {(fetchedData.length > 0 && !loading) && <LoadMoreBtn onClick={handleLoadMore}/>}
-            <ImageModal isOpen={isModalOpen} url={modalUrl} alt={modalAlt} />
             {error && <ErrorMessage message={error} />}
+            {/* LoadMoreBtn appear if there are already some images in gallery and there is no loading */}
+            {/* LoadMoreBtn text will be "Load more" in normal condition and "Try agail" in case of fetch error*/}
+            {(fetchedData.length > 0 && !loading) && <LoadMoreBtn onClick={handleLoadMore}>
+                {error ? 'Try again' : 'Load more'}
+            </LoadMoreBtn>}
+            <ImageModal onClose={handleModalClose} isOpen={isModalOpen} url={modalUrl} alt={modalAlt} />
         </div>
     )
 }

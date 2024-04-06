@@ -2,12 +2,12 @@ import css from './SearchBar.module.css'
 import { AiOutlineSearch } from "react-icons/ai";
 import toast, { Toaster } from 'react-hot-toast'
 
-export default function SearchBar({ onSubmit, searchValue }) {
+export default function SearchBar({ onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const value = e.target.search.value
-        if (!value.trim().length) {
+        if (value.trim().length < 1) {
             return toast.error("This field cannot be empty")
         }
         onSubmit(value)

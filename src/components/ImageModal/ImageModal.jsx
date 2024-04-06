@@ -1,17 +1,22 @@
-import css from './ImageModal'
-import ReactModal from 'react-modal'
+import css from './ImageModal.module.css'
+import Modal from 'react-modal'
 
-ReactModal.setAppElement('#root')
 
-export default function ImageModal({url, alt, isOpen}) {
+Modal.setAppElement('#root')
+
+export default function ImageModal({url, alt, isOpen, onClose}) {
     return (
-        <ReactModal
+        <Modal
             isOpen={isOpen}
             contentLabel='fullsize picture modal'
-            shouldCloseOnEsc={false}
+            shouldCloseOnEsc={true}
             shouldCloseOnOverlayClick={true}
+            onRequestClose={onClose}
+            className={css.modal}
+            overlayClassName={css.overlay}
+            closeTimeoutMS={300}
         >
-            <img src={url} alt={alt} />
-        </ReactModal>
+            <img src={url} alt={alt} className={css.img} />
+        </Modal>
     )
 }

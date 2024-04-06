@@ -1,8 +1,5 @@
 .container {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-bottom: 8px;
 }
 .errTitle {
     text-align: center;
