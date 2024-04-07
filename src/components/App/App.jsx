@@ -58,7 +58,6 @@ export default function App() {
         }
     }, [searchWord, page])
 
-    // fetch by pushing load more btn
     const handleLoadMore = () => {
         setPage(page + 1)
     }
