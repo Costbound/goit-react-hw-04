@@ -28,24 +28,22 @@ export default function App() {
 
     const handleSubmit = (searchValue) => {
         setSearchWord(searchValue)
+        setFetchedData([])
+        setPage(1)
     }
 
-    // Fetch by new searchWord
     useEffect(() => {
         // if to avoid fetch with empty searchWord during first render
         if (searchWord) { 
             const fetchData = async () => {
                 try {
-                    // Clean gallery from old searchWord data
-                    setFetchedData([])
-                    setPage(1)
                     // Clean error if previous request was error
                     setError('')
                     setLoading(true)
-                    const data = await fetchImages(searchWord, 1)
+                    const data = await fetchImages(searchWord, page)
                     // Check if thre is any image in data array and throw error if data []
                     if (data.length > 0) {
-                        setFetchedData(data)
+                        setFetchedData([...fetchedData, ...data])
                     } else {
                         throw new Error('We found nothing by your request... =(')
                     }
@@ -58,27 +56,11 @@ export default function App() {
             }
             fetchData()
         }
-    }, [searchWord])
+    }, [searchWord, page])
 
     // fetch by pushing load more btn
     const handleLoadMore = () => {
-        const fetchData = async () => {
-            try {
-                // Clean error if previous request was error
-                setError('')
-                setLoading(true)
-                const data = await fetchImages(searchWord, page + 1)
-                setFetchedData(fetchedData.concat(data))
-                // before fetch to avoid setPage in case fetch with error
-                setPage(page + 1)
-            } catch (err) {
-                setError(err.message)
-            }
-            finally {
-                setLoading(false)
-            }
-        }
-        fetchData()
+        setPage(page + 1)
     }
 
     // set states for opened modal
